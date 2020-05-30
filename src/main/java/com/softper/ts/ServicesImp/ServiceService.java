@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ServiceService implements IServiceService {
@@ -33,6 +34,26 @@ public class ServiceService implements IServiceService {
 
     @Override
     public ServiceResponse createService(int driverId) {
+        return null;
+    }
+
+    @Override
+    public com.softper.ts.Model.Service save(com.softper.ts.Model.Service service) throws Exception {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Integer id) throws Exception {
+
+    }
+
+    @Override
+    public Optional<com.softper.ts.Model.Service> findById(Integer id) throws Exception {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<com.softper.ts.Model.Service> findAll() throws Exception {
         return null;
     }
 }

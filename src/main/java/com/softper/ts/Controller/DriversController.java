@@ -17,4 +17,26 @@ public class DriversController {
     @Autowired
     private DriverService driverService;
 
+    @GetMapping
+    public ResponseEntity<DriverResponse> findAllDrivers()
+    {
+        DriverResponse result = driverService.getAllDrivers();
+
+        if(!result.success)
+            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/{driverId}")
+    public ResponseEntity<DriverResponse> findDriverById(@PathVariable(value = "driverId") int driverId)
+    {
+        DriverResponse result = driverService.findDriverById(driverId);
+
+        if(!result.success)
+            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

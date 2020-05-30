@@ -20,6 +20,31 @@ import java.util.Optional;
 @Service
 public class DriverService implements IDriverService{
 
+    @Autowired
+    IDriverRepository driverRepository;
+
+
+    @Override
+    public Driver save(Driver driver) throws Exception {
+        return driverRepository.save(driver);
+    }
+
+    @Override
+    public void deleteById(Integer id) throws Exception {
+        driverRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Driver> findById(Integer id) throws Exception {
+        return driverRepository.findById(id);
+    }
+
+    @Override
+    public List<Driver> findAll() throws Exception {
+        return driverRepository.findAll();
+    }
+
+
     @Override
     public DriverResponse findNearDrivers(Location location) {
         return null;
@@ -27,31 +52,31 @@ public class DriverService implements IDriverService{
 
     @Override
     public DriverResponse findDriverById(int driverId) {
-        return null;
+        try
+        {
+            Driver getDriver = driverRepository.findById(driverId).get();
+            return new DriverResponse(new DriverOutput(getDriver.getId(),getDriver.getPerson().getFirstName(),getDriver.getPerson().getLastName(),getDriver.getLicense()));
+        }
+        catch (Exception e)
+        {
+            return new DriverResponse("An error ocurred while getting driver: "+e.getMessage());
+        }
     }
 
     @Override
     public DriverResponse getAllDrivers() {
-        return null;
-    }
-
-    @Override
-    public Driver save(Driver driver) throws Exception {
-        return null;
-    }
-
-    @Override
-    public void deleteById(Integer id) throws Exception {
-
-    }
-
-    @Override
-    public Optional<Driver> findById(Integer id) throws Exception {
-        return Optional.empty();
-    }
-
-    @Override
-    public List<Driver> findAll() throws Exception {
-        return null;
+        try
+        {
+            List<Driver> drivers = driverRepository.findAll();
+            List<DriverOutput> driverOutputList = new ArrayList<>();
+            for (Driver d:drivers) {
+                driverOutputList.add(new DriverOutput(d.getId(),d.getPerson().getFirstName(),d.getPerson().getLastName(),d.getLicense()));
+            }
+            return new DriverResponse(driverOutputList);
+        }
+        catch (Exception e)
+        {
+            return new DriverResponse("An error ocurred while getting driver list: "+e.getMessage());
+        }
     }
 }

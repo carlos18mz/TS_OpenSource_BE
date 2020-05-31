@@ -6,6 +6,7 @@ import com.softper.ts.Resources.Outputs.PriceOutput;
 import com.softper.ts.Services.IPriceService;
 import com.softper.ts.Model.Price;
 import com.softper.ts.Repositories.IPriceRepository;
+import com.softper.ts.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,7 +71,8 @@ public class PriceService implements IPriceService {
     public PriceResponse findPriceById(int priceId) {
         try
         {
-            Price getPrice = priceRepository.findById(priceId).get();
+            Price getPrice = priceRepository.findById(priceId)
+                    .orElseThrow(()->new ResourceNotFoundException("price","id",priceId));
             PriceOutput newPriceOutput = new PriceOutput();
             newPriceOutput.setTotalPrice(getPrice.getTotalPrice());
             newPriceOutput.setTax(getPrice.getTax());

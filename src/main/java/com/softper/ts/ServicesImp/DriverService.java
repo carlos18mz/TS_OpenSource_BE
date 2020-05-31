@@ -11,6 +11,7 @@ import com.softper.ts.Repositories.IDriverRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softper.ts.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,7 +55,8 @@ public class DriverService implements IDriverService{
     public DriverResponse findDriverById(int driverId) {
         try
         {
-            Driver getDriver = driverRepository.findById(driverId).get();
+            Driver getDriver = driverRepository.findById(driverId)
+                    .orElseThrow(()->new ResourceNotFoundException("Driver","id",driverId));
             return new DriverResponse(new DriverOutput(getDriver.getId(),getDriver.getPerson().getFirstName(),getDriver.getPerson().getLastName(),getDriver.getLicense()));
         }
         catch (Exception e)

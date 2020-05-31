@@ -8,6 +8,7 @@ import com.softper.ts.Resources.Outputs.PersonOutput;
 import com.softper.ts.Services.IPersonService;
 import com.softper.ts.Model.Person;
 import com.softper.ts.Repositories.IPersonRepository;
+import com.softper.ts.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,8 +50,10 @@ public class PersonService implements IPersonService {
     public PersonResponse findPeopleById(int id) {
         try
         {
-            User getUser = userRepository.findUserByPersonId(id).get();
-            Person getPerson = personRepository.findById(id).get();
+            User getUser = userRepository.findUserByPersonId(id)
+                    .orElseThrow(()->new ResourceNotFoundException("User","id",id));
+            Person getPerson = personRepository.findById(id)
+                    .orElseThrow(()->new ResourceNotFoundException("Person","id",id));
 
             PersonOutput newPersonOutput = new PersonOutput();
             newPersonOutput.setEmail(getUser.getEmail());

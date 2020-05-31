@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +66,10 @@ public class UserService implements IUserService {
     public FavouriteResponse setFavourited(int userId, int favouriteId) {
         try
         {
-            User getUser = userRepository.findById(userId).get();
-            User getFavourite = userRepository.findById(favouriteId).get();
+            User getUser = userRepository.findById(userId)
+                    .orElseThrow(()->new ResourceNotFoundException("User","id",userId));
+            User getFavourite = userRepository.findById(favouriteId)
+                    .orElseThrow(()->new ResourceNotFoundException("User","id",favouriteId));
             if(getUser.getPerson().getPersonType()!= 1 || getFavourite.getPerson().getPersonType() != 2)
                 return new FavouriteResponse("Only customers can set drivers as favourites");
             Favourite newFavourite = new Favourite();
@@ -90,27 +93,9 @@ public class UserService implements IUserService {
 
     @Override
     public BlockedResponse setBlocked(int userId, int blockedId) {
-        try
-        {
-            User getUser = userRepository.findById(userId).get();
-            User getBlocked = userRepository.findById(blockedId).get();
-            Block newBlock = new Block();
-            newBlock.setUser(getUser);
-            newBlock.setBlocked(getBlocked);
-            newBlock = blockRepository.save(newBlock);
-
-            BlockedOutput newBlockedOutput = new BlockedOutput();
-            newBlockedOutput.setUser(newBlock.getUser().getPerson().getFirstName()+" "+newBlock.getUser().getPerson().getLastName());
-            newBlockedOutput.setBlocked(newBlock.getBlocked().getPerson().getFirstName()+" "+newBlock.getBlocked().getPerson().getLastName());
-            newBlockedOutput.setSince(newBlock.getCreatedAt());
-
-            return new BlockedResponse(newBlockedOutput);
-        }
-        catch (Exception e)
-        {
-            return new BlockedResponse("An error ocurred while saving the blockeds relation : "+e.getMessage());
-        }
+        return null;
     }
+
 
     @Override
     public UserResponse findAllUsers() {
@@ -165,26 +150,7 @@ public class UserService implements IUserService {
 
     @Override
     public BlockedResponse findBlockedsByUserId(int userId) {
-        try
-        {
-            List<Block> blocked = blockRepository.findBlockedsByUserId(userId);
-            List<BlockedOutput> blockedOutputList = new ArrayList<>();
-            for(Block b:blocked)
-            {
-                BlockedOutput newBlockedOutput = new BlockedOutput();
-                newBlockedOutput.setUser(b.getUser().getPerson().getFirstName()+" "+b.getUser().getPerson().getLastName());
-                newBlockedOutput.setBlocked(b.getBlocked().getPerson().getFirstName()+" "+b.getBlocked().getPerson().getLastName());
-                newBlockedOutput.setSince(b.getCreatedAt());
-                blockedOutputList.add(newBlockedOutput);
-            }
-            return new BlockedResponse(blockedOutputList);
-        }
-        catch (Exception e)
-        {
-            return new BlockedResponse("An error ocurred while getting the blockeds list : "+e.getMessage());
-
-        }
-
+        return null;
     }
 
     @Override
@@ -212,26 +178,7 @@ public class UserService implements IUserService {
 
     @Override
     public BlockedResponse findAllBlockeds() {
-        try
-        {
-            List<Block> blocked = blockRepository.findAll();
-            List<BlockedOutput> blockedOutputList = new ArrayList<>();
-            for(Block b:blocked)
-            {
-                BlockedOutput newBlockedOutput = new BlockedOutput();
-                newBlockedOutput.setUser(b.getUser().getPerson().getFirstName()+" "+b.getUser().getPerson().getLastName());
-                newBlockedOutput.setBlocked(b.getBlocked().getPerson().getFirstName()+" "+b.getBlocked().getPerson().getLastName());
-                newBlockedOutput.setSince(b.getCreatedAt());
-                blockedOutputList.add(newBlockedOutput);
-            }
-            return new BlockedResponse(blockedOutputList);
-        }
-        catch (Exception e)
-        {
-            return new BlockedResponse("An error ocurred while getting the blockeds list : "+e.getMessage());
-
-        }
-
+        return null;
     }
 
     @Override

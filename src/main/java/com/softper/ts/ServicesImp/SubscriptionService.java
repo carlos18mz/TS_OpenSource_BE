@@ -10,6 +10,7 @@ import com.softper.ts.Resources.Comunications.ServiceResponse;
 import com.softper.ts.Resources.Comunications.SubscriptionResponse;
 import com.softper.ts.Resources.Outputs.SubscriptionOutput;
 import com.softper.ts.Services.ISubscriptionService;
+import com.softper.ts.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,8 +51,10 @@ public class SubscriptionService implements ISubscriptionService {
     public SubscriptionResponse suscribe(int userId, int planId) {
         try
         {
-            Plan getPlan = planRepository.findById(planId).get();
-            User getUser = userRepository.findById(userId).get();
+            Plan getPlan = planRepository.findById(planId)
+                    .orElseThrow(()->new ResourceNotFoundException("Plan","id",planId));
+            User getUser = userRepository.findById(userId)
+                    .orElseThrow(()->new ResourceNotFoundException("User","id",userId));
 
             Subscription newSubscription = new Subscription();
             newSubscription.setPlan(getPlan);

@@ -12,5 +12,4 @@ import org.springframework.stereotype.Service;
 public interface ICustomerService extends ICrudService<Customer>{
     CustomerResponse findCustomerById(int customerId);
     CustomerResponse getAllCustomers();
-    CustomerResponse getAllPages(Pageable pageable);
 }

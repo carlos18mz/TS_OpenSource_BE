@@ -25,7 +25,7 @@ public class PlansController {
         PlanResponse result =  planService.getAllPlans();
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -36,7 +36,7 @@ public class PlansController {
         PlanResponse result = planService.registerPlan(planInput);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class PlansController {
         PlanResponse result = planService.findPlanById(planId);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -58,7 +58,7 @@ public class PlansController {
         PlanResponse result =  planService.findPlansHigherThan(priceValue);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class PlansController {
         PlanResponse result = planService.findPlansLessThan(priceValue);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class PlansController {
         PlanResponse result = planService.findPlansByPrice(priceValue);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
 

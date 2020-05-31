@@ -22,7 +22,7 @@ public class PricesController {
         PriceResponse result = priceService.findAllPrices();
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -33,7 +33,7 @@ public class PricesController {
         PriceResponse result = priceService.findPriceById(priceId);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -44,7 +44,7 @@ public class PricesController {
         PriceResponse result =  priceService.findPricesByPriceType(priceType);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }

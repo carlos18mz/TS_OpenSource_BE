@@ -43,7 +43,7 @@ public class SubscriptionsController {
         SubscriptionResponse result = subscriptionService.suscribe(userId, planId);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }

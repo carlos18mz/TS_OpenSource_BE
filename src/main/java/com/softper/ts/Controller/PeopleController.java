@@ -24,7 +24,7 @@ public class PeopleController {
         PersonResponse result = personService.findAllPersons();
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -34,7 +34,7 @@ public class PeopleController {
     {
         PersonResponse result = personService.findPeopleById(personId);
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

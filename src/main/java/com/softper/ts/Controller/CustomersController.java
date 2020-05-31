@@ -19,5 +19,25 @@ public class CustomersController {
     @Autowired
     private CustomerService customerService;
 
+    @GetMapping
+    public ResponseEntity<CustomerResponse> findAllCustomers()
+    {
+        CustomerResponse result = customerService.getAllCustomers();
 
+        if(!result.success)
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/{cargoId}")
+    public ResponseEntity<CustomerResponse> findCustomersById(@PathVariable(value = "cargoId") int cargoId)
+    {
+        CustomerResponse result = customerService.findCustomerById(cargoId);
+
+        if(!result.success)
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }

@@ -25,7 +25,7 @@ public class UsersController {
         UserResponse result = userService.findAllUsers();
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -36,7 +36,7 @@ public class UsersController {
         FavouriteResponse result = userService.setFavourited(userId, userFavouritedId);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class UsersController {
         BlockedResponse result = userService.setBlocked(userId, userBlockedId);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -58,7 +58,7 @@ public class UsersController {
         FavouriteResponse result = userService.findFavouritesByUserId(userId);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class UsersController {
         BlockedResponse result = userService.findBlockedsByUserId(userId);
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class UsersController {
         FavouriteResponse result = userService.findAllFavourites();
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }
@@ -91,7 +91,7 @@ public class UsersController {
         BlockedResponse result = userService.findAllBlockeds();
 
         if(!result.success)
-            return new ResponseEntity<>(result, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
 
         return new ResponseEntity<>(result,HttpStatus.OK);
     }

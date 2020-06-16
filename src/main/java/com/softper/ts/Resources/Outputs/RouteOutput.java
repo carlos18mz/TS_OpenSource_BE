@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class RouteOutput {
-    private int id;
-    private double distance;
-    private  int CargoUnits;
+    private String DepartureLocation;
+    private String ArrivalLocation;
+    private double Distance;
+    private int EstimedTime;
 }

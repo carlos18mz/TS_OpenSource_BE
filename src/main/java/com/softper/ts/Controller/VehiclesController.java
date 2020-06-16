@@ -14,8 +14,5 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/vehicles")
 public class VehiclesController {
 
-    @Autowired
-    private VehicleService vehicleService;
-
 
 }

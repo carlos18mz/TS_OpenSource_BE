@@ -53,6 +53,17 @@ public class CargoesController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PutMapping("{cargoId}/deliver")
+    public ResponseEntity<CargoResponse> setCargoDelivered(@PathVariable(value="cargoId")int cargoId)
+    {
+        CargoResponse result = cargoService.setCargoDelivered(cargoId);
+
+        if(!result.success)
+            return new ResponseEntity<>(result,HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @PostMapping("customers/{customerId}")
     public ResponseEntity<CargoResponse> postCargo(@PathVariable(value = "customerId")int customerId, @Valid @RequestBody CargoInput cargoInput)
     {

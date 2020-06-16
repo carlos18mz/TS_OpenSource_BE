@@ -7,6 +7,7 @@ import com.softper.ts.Resources.Comunications.CargoResponse;
 import com.softper.ts.Resources.Inputs.CargoInput;
 import com.softper.ts.Resources.Outputs.CargoOutput;
 import com.softper.ts.Services.ICargoService;
+import com.softper.ts.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +22,13 @@ public class CargoService implements ICargoService {
     @Autowired
     private ICargoRepository cargoRepository;
     @Autowired
+    private IUserRepository userRepository;
+    @Autowired
     private ICustomerRepository customerRepository;
     @Autowired
     private IPriceRepository priceRepository;
+    @Autowired
+    private IBalanceRepository balanceRepository;
     @Autowired
     private IServiceRepository serviceRepository;
     @Autowired
@@ -67,7 +72,6 @@ public class CargoService implements ICargoService {
                 newCargoOutput.setServicePrice(c.getPrice().getTotalPrice());
                 newCargoOutput.setDescription(c.getDescription());
                 newCargoOutput.setCargoType(c.getCargoType().toString());
-                newCargoOutput.setWeight(c.getWeight());
                 newCargoOutput.setCargoStatus(c.getCargoStatus());
                 cargoOutputList.add(newCargoOutput);
             }
@@ -86,6 +90,8 @@ public class CargoService implements ICargoService {
         {
             com.softper.ts.Model.Service getService = serviceRepository.findById(cargoInput.getServiceId()).get();
             Customer getCustomer = customerRepository.findById(customerId).get();
+            if(getCustomer.getCredits() - cargoInput.getServicePrice()<0)
+                return new CargoResponse("You dont have enough credits");
             Price newPrice = new Price();
             newPrice.setTotalPrice((double) cargoInput.getServicePrice());
             newPrice.setTax(((double) cargoInput.getServicePrice()) * 0.19);
@@ -98,7 +104,7 @@ public class CargoService implements ICargoService {
             newCargo.setDescription(cargoInput.getDescription());
             newCargo.setWeight(cargoInput.getWeight());
             newCargo.setPrice(newPrice);
-            newCargo.setCargoType(CargoType.Chemicals);
+            newCargo.setCargoType("Chemicals");
             newCargo.setCargoStatus("Awaiting");
             newCargo = cargoRepository.save(newCargo);
 
@@ -122,8 +128,7 @@ public class CargoService implements ICargoService {
             newCargoOutput.setFinishTime(newCargo.getService().getFinishTime());
             newCargoOutput.setServicePrice(newCargo.getPrice().getTotalPrice());
             newCargoOutput.setDescription(newCargo.getDescription());
-            newCargoOutput.setCargoType(newCargo.getCargoType().toString());
-            newCargoOutput.setWeight(newCargo.getWeight());
+            newCargoOutput.setCargoType(newCargo.getCargoType());
             newCargoOutput.setCargoStatus(newCargo.getCargoStatus());
 
             return new CargoResponse(newCargoOutput);
@@ -151,8 +156,8 @@ public class CargoService implements ICargoService {
             newCargoOutput.setServicePrice(getCargo.getPrice().getTotalPrice());
             newCargoOutput.setDescription(getCargo.getDescription());
             newCargoOutput.setCargoType(getCargo.getCargoType().toString());
-            newCargoOutput.setWeight(getCargo.getWeight());
             newCargoOutput.setCargoStatus(getCargo.getCargoStatus());
+
             return new CargoResponse(newCargoOutput);
         }
         catch (Exception e)
@@ -171,7 +176,6 @@ public class CargoService implements ICargoService {
             List<CargoOutput> cargoOutputList = new ArrayList<>();
             for (Cargo c:cargoes) {
                 CargoOutput newCargoOutput = new CargoOutput();
-
                 newCargoOutput.setWeight(c.getWeight());
                 newCargoOutput.setCustomer(c.getCustomer().getPerson().getFirstName()+" "+c.getCustomer().getPerson().getFirstName());
                 newCargoOutput.setDriver(c.getService().getServicesRequest().getDriver().getPerson().getFirstName()+" "+c.getService().getServicesRequest().getDriver().getPerson().getLastName());
@@ -180,7 +184,6 @@ public class CargoService implements ICargoService {
                 newCargoOutput.setServicePrice(c.getPrice().getTotalPrice());
                 newCargoOutput.setDescription(c.getDescription());
                 newCargoOutput.setCargoType(c.getCargoType().toString());
-                newCargoOutput.setWeight(c.getWeight());
                 newCargoOutput.setCargoStatus(c.getCargoStatus());
                 cargoOutputList.add(newCargoOutput);
             }
@@ -190,6 +193,43 @@ public class CargoService implements ICargoService {
         {
             return new CargoResponse("An error ocurred while getting the cargo list: "+e.getMessage());
         }
+    }
 
+    @Override
+    public CargoResponse setCargoDelivered(int cargoId) {
+        try
+        {
+            Cargo getCargo = cargoRepository.findById(cargoId).get();
+            User getUser = userRepository.findUserByPersonId(getCargo.getCustomer().getPerson().getId())
+                    .orElseThrow(()->new ResourceNotFoundException("user","id",cargoId));
+            Customer getCustomer = getCargo.getCustomer();
+            Balance getBalance = getUser.getBalance();
+
+            getBalance.setSpentMoney(getBalance.getSpentMoney() + getCargo.getPrice().getTotalPrice());
+            getCustomer.setCredits(getCustomer.getCredits() - getCargo.getPrice().getTotalPrice());
+            getCargo.setCargoStatus("Received");
+
+            getBalance = balanceRepository.save(getBalance);
+            getCustomer = customerRepository.save(getCustomer);
+            getCargo = cargoRepository.save(getCargo);
+
+            CargoOutput newCargoOutput = new CargoOutput();
+
+            newCargoOutput.setWeight(getCargo.getWeight());
+            newCargoOutput.setCustomer(getCargo.getCustomer().getPerson().getFirstName()+" "+getCargo.getCustomer().getPerson().getFirstName());
+            newCargoOutput.setDriver(getCargo.getService().getServicesRequest().getDriver().getPerson().getFirstName()+" "+getCargo.getService().getServicesRequest().getDriver().getPerson().getLastName());
+            newCargoOutput.setStartTime(getCargo.getService().getStartTime());
+            newCargoOutput.setFinishTime(getCargo.getService().getFinishTime());
+            newCargoOutput.setServicePrice(getCargo.getPrice().getTotalPrice());
+            newCargoOutput.setDescription(getCargo.getDescription());
+            newCargoOutput.setCargoType(getCargo.getCargoType().toString());
+            newCargoOutput.setCargoStatus(getCargo.getCargoStatus());
+
+            return new CargoResponse(newCargoOutput);
+        }
+        catch (Exception e)
+        {
+            return new CargoResponse("An error ocurred while getting the cargo list: "+e.getMessage());
+        }
     }
 }

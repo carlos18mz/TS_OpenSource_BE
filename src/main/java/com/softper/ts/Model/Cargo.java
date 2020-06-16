@@ -42,9 +42,8 @@ public class Cargo implements Serializable {
     @Column(name = "cargo_status")
     private String cargoStatus;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "cargo_type")
-    private CargoType cargoType;
+    private String cargoType;
 
     @OneToOne(mappedBy = "cargo")
     private Location location;

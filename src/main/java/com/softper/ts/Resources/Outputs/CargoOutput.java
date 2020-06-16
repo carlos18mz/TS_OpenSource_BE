@@ -17,4 +17,5 @@ public class CargoOutput {
     private String description;
     private double servicePrice;
     private String cargoType;
+    private String cargoStatus;
 }

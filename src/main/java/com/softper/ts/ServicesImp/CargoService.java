@@ -68,6 +68,7 @@ public class CargoService implements ICargoService {
                 newCargoOutput.setDescription(c.getDescription());
                 newCargoOutput.setCargoType(c.getCargoType().toString());
                 newCargoOutput.setWeight(c.getWeight());
+                newCargoOutput.setCargoStatus(c.getCargoStatus());
                 cargoOutputList.add(newCargoOutput);
             }
             return new CargoResponse(cargoOutputList);
@@ -98,6 +99,7 @@ public class CargoService implements ICargoService {
             newCargo.setWeight(cargoInput.getWeight());
             newCargo.setPrice(newPrice);
             newCargo.setCargoType(CargoType.Chemicals);
+            newCargo.setCargoStatus("Awaiting");
             newCargo = cargoRepository.save(newCargo);
 
             Location newLocation = new Location();
@@ -122,6 +124,7 @@ public class CargoService implements ICargoService {
             newCargoOutput.setDescription(newCargo.getDescription());
             newCargoOutput.setCargoType(newCargo.getCargoType().toString());
             newCargoOutput.setWeight(newCargo.getWeight());
+            newCargoOutput.setCargoStatus(newCargo.getCargoStatus());
 
             return new CargoResponse(newCargoOutput);
         }
@@ -149,6 +152,7 @@ public class CargoService implements ICargoService {
             newCargoOutput.setDescription(getCargo.getDescription());
             newCargoOutput.setCargoType(getCargo.getCargoType().toString());
             newCargoOutput.setWeight(getCargo.getWeight());
+            newCargoOutput.setCargoStatus(getCargo.getCargoStatus());
             return new CargoResponse(newCargoOutput);
         }
         catch (Exception e)
@@ -177,6 +181,7 @@ public class CargoService implements ICargoService {
                 newCargoOutput.setDescription(c.getDescription());
                 newCargoOutput.setCargoType(c.getCargoType().toString());
                 newCargoOutput.setWeight(c.getWeight());
+                newCargoOutput.setCargoStatus(c.getCargoStatus());
                 cargoOutputList.add(newCargoOutput);
             }
             return new CargoResponse(cargoOutputList);

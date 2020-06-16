@@ -14,4 +14,5 @@ public interface ICargoService extends ICrudService<Cargo>{
     CargoResponse addCargoByCustomerId(int customerId, CargoInput cargoInput);
     CargoResponse findCargoById(int cargoId);
     CargoResponse findAllCargoes();
+    CargoResponse setCargoDelivered(int cargoId);
 }

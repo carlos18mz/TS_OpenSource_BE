@@ -13,7 +13,4 @@ import javax.validation.Valid;
 @RequestMapping("/api/authentication")
 public class AuthenticationController {
 
-    @Autowired
-    private AuthService authService;
-
 }

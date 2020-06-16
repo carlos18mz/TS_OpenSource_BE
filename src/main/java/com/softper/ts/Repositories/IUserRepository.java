@@ -17,4 +17,10 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     @Query("select s from User s where s.person.id = (:uid)")
     Optional<User> findUserByPersonId(@Param("uid")int personId);
+
+    @Query("select s from User s where s.balance.id = (:uid)")
+    Optional<User> findUserByBalanceId(@Param("uid")int balanceId);
+
+    @Query("select s from User s where s.configuration.id = (:uid)")
+    Optional<User> findUserByConfigurationId(@Param("uid")int configurationId);
 }

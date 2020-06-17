@@ -13,4 +13,10 @@ public class CargoInput implements Serializable {
     private int servicePrice;
     private int serviceId;
 
+    public CargoInput(double weight, String description, int servicePrice, int serviceId) {
+        this.weight = weight;
+        this.description = description;
+        this.servicePrice = servicePrice;
+        this.serviceId = serviceId;
+    }
 }

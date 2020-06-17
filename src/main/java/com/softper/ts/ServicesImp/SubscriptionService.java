@@ -10,6 +10,7 @@ import com.softper.ts.Resources.Comunications.ServiceResponse;
 import com.softper.ts.Resources.Comunications.SubscriptionResponse;
 import com.softper.ts.Resources.Outputs.SubscriptionOutput;
 import com.softper.ts.Services.ISubscriptionService;
+import com.softper.ts.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +57,7 @@ public class SubscriptionService implements ISubscriptionService {
             Subscription newSubscription = new Subscription();
             newSubscription.setPlan(getPlan);
             newSubscription.setUser(getUser);
+            newSubscription.setSubscriptionState("Active");
             newSubscription.setStartTime(Calendar.getInstance().getTime());
             newSubscription.setFinishTime(Calendar.getInstance().getTime());
 
@@ -63,7 +65,7 @@ public class SubscriptionService implements ISubscriptionService {
             return new SubscriptionResponse(new SubscriptionOutput(newSubscription.getId(),
                     newSubscription.getUser().getPerson().getFirstName(),newSubscription.getUser().
                     getPerson().getLastName(),newSubscription.getUser().getEmail(),newSubscription.getPlan().
-                    getName(),newSubscription.getPlan().getPrice().getTotalPrice()));
+                    getName(),newSubscription.getPlan().getPrice().getTotalPrice(),newSubscription.getSubscriptionState()));
 
         }
         catch (Exception e)
@@ -115,26 +117,45 @@ public class SubscriptionService implements ISubscriptionService {
         {
             return new SubscriptionResponse("An error ocurred while getting the subscription list : "+e.getMessage());
         }
-
     }
 
     @Override
-    public Subscription save(Subscription subscription) {
+    public SubscriptionResponse cancelSubscription(int subscriptionId) {
+        try
+        {
+            Subscription getSubscription = subscriptionRepository.findById(subscriptionId)
+                    .orElseThrow(()->new ResourceNotFoundException("subscription","id",subscriptionId));
+            getSubscription.setSubscriptionState("Canceled");
+            getSubscription = subscriptionRepository.save(getSubscription);
+
+            return new SubscriptionResponse(new SubscriptionOutput(getSubscription.getId(),
+                    getSubscription.getUser().getPerson().getFirstName(),getSubscription.getUser().
+                    getPerson().getLastName(),getSubscription.getUser().getEmail(),getSubscription.getPlan().
+                    getName(),getSubscription.getPlan().getPrice().getTotalPrice(),getSubscription.getSubscriptionState()));
+        }
+        catch (Exception e)
+        {
+            return new SubscriptionResponse("An error ocurred while getting the subscription : "+e.getMessage());
+        }
+    }
+
+    @Override
+    public Subscription save(Subscription subscription) throws Exception {
         return subscriptionRepository.save(subscription);
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Integer id) throws Exception {
         subscriptionRepository.deleteById(id);
     }
 
     @Override
-    public Optional<Subscription> findById(Integer id) {
+    public Optional<Subscription> findById(Integer id) throws Exception {
         return subscriptionRepository.findById(id);
     }
 
     @Override
-    public List<Subscription> findAll() {
+    public List<Subscription> findAll() throws Exception {
         return subscriptionRepository.findAll();
     }
 }

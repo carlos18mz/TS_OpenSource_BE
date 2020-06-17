@@ -9,4 +9,10 @@ public class ConfigurationOutput {
     private String userName;
     private String language;
     private String paymentCurrency;
+
+    public ConfigurationOutput(String userName, String language, String paymentCurrency) {
+        this.userName = userName;
+        this.language = language;
+        this.paymentCurrency = paymentCurrency;
+    }
 }

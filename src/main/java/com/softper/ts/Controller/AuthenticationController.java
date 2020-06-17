@@ -13,5 +13,20 @@ import javax.validation.Valid;
 @RequestMapping("/api/authentication")
 public class AuthenticationController {
 
+    @Autowired
+    private AuthService authService;
+
+
+    @GetMapping(value = "/sign-in")
+    public ResponseEntity<AuthResponse> SignIn(@Valid @RequestBody SignIn signIn) throws Exception {
+        if(signIn == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        AuthResponse result = authService.Login(signIn.getEmail(), signIn.getPassword());
+
+        if(!result.success)
+            return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 }

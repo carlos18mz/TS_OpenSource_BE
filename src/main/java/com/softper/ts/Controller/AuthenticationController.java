@@ -29,4 +29,18 @@ public class AuthenticationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
+    @PostMapping(value = "/sign-up")
+    public ResponseEntity<AuthResponse> SignUp(@Valid @RequestBody SignUp signUp) throws Exception {
+
+        if(signUp == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        AuthResponse result = authService.RegisterComplete(signUp);
+
+        if(!result.success)
+            return new ResponseEntity<>(result,HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(result,HttpStatus.OK);
+    }
 }

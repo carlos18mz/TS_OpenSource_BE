@@ -11,4 +11,12 @@ public class PlanOutput {
     private int durationDays;
     private double price;
     private double tax;
+
+    public PlanOutput(int id, String planName, int durationDays, double price, double tax) {
+        this.id = id;
+        this.planName = planName;
+        this.durationDays = durationDays;
+        this.price = price;
+        this.tax = tax;
+    }
 }

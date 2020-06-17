@@ -10,4 +10,11 @@ public class RouteOutput {
     private String ArrivalLocation;
     private double Distance;
     private int EstimedTime;
+
+    public RouteOutput(String departureLocation, String arrivalLocation, double distance, int estimedTime) {
+        DepartureLocation = departureLocation;
+        ArrivalLocation = arrivalLocation;
+        Distance = distance;
+        EstimedTime = estimedTime;
+    }
 }

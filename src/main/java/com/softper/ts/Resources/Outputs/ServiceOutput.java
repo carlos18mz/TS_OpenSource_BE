@@ -13,4 +13,12 @@ public class ServiceOutput {
     private Date startedTime;
     private Date finishTime;
     private String serviceState;
+
+    public ServiceOutput(String firstName, String lastName, Date startedTime, Date finishTime, String serviceState) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.startedTime = startedTime;
+        this.finishTime = finishTime;
+        this.serviceState = serviceState;
+    }
 }

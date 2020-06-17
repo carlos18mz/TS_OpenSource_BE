@@ -18,4 +18,17 @@ public class CargoOutput {
     private double servicePrice;
     private String cargoType;
     private String cargoStatus;
+
+    public CargoOutput(String customer, String driver, int serviceId, Date startTime, Date finishTime, double weight, String description, double servicePrice, String cargoType, String cargoStatus) {
+        this.customer = customer;
+        this.driver = driver;
+        this.serviceId = serviceId;
+        this.startTime = startTime;
+        this.finishTime = finishTime;
+        this.weight = weight;
+        this.description = description;
+        this.servicePrice = servicePrice;
+        this.cargoType = cargoType;
+        this.cargoStatus = cargoStatus;
+    }
 }

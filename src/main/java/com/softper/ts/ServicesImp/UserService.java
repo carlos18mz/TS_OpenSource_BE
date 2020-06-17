@@ -213,6 +213,40 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public FavouriteResponse findFavouriteByUserIdAndFavouriteId(int userId, int favouriteId) {
+        try
+        {
+            Favourite getFavourite = favouriteRepository.findFavouriteByUserAndFavouriteId(userId, favouriteId);
+            FavouriteOutput newFavouriteOutput = new FavouriteOutput();
+            newFavouriteOutput.setUser(getFavourite.getUser().getPerson().getFirstName()+" "+getFavourite.getUser().getPerson().getLastName());
+            newFavouriteOutput.setFavourited(getFavourite.getFavourited().getPerson().getFirstName()+" "+getFavourite.getFavourited().getPerson().getLastName());
+            newFavouriteOutput.setSince(getFavourite.getCreatedAt());
+            return new FavouriteResponse(new FavouriteOutput());
+        }
+        catch (Exception e)
+        {
+            return new FavouriteResponse("An error ocurred while getting the favourite relation : "+e.getMessage());
+        }
+    }
+
+    @Override
+    public BlockedResponse findBlockByUserIdAndBlockedId(int userId, int blockedId) {
+        try
+        {
+            Block getBlock = blockRepository.findBlockByUserAndBlockedId(userId, blockedId);
+            BlockedOutput newBlockedOutput = new BlockedOutput();
+            newBlockedOutput.setUser(getBlock.getUser().getPerson().getFirstName()+" "+getBlock.getUser().getPerson().getLastName());
+            newBlockedOutput.setBlocked(getBlock.getBlocked().getPerson().getFirstName()+" "+getBlock.getBlocked().getPerson().getLastName());
+            newBlockedOutput.setSince(getBlock.getCreatedAt());
+            return new BlockedResponse(newBlockedOutput);
+        }
+        catch (Exception e)
+        {
+            return new BlockedResponse("An error ocurred while getting the blocked relation : "+e.getMessage());
+        }
+    }
+
+    @Override
     public UserResponse findByEmail(String email) {
         try
         {
@@ -237,6 +271,32 @@ public class UserService implements IUserService {
             return new UserResponse("An error ocurred while getting the user : "+e.getMessage());
         }
 
+    }
+
+    @Override
+    public UserResponse findUserById(int userId) {
+        try
+        {
+            User getUser = userRepository.findById(userId)
+                    .orElseThrow(()->new ResourceNotFoundException("User","id",userId));
+            UserOutput newUserOutput = new UserOutput();
+            newUserOutput.setEmail(getUser.getEmail());
+            newUserOutput.setFirstName(getUser.getPerson().getFirstName());
+            newUserOutput.setLastName(getUser.getPerson().getLastName());
+            newUserOutput.setPassword(getUser.getPassword());
+
+            if(getUser.getPerson().getPersonType()==1)
+                newUserOutput.setRole("Customer");
+            else if(getUser.getPerson().getPersonType()==2)
+                newUserOutput.setRole("Driver");
+
+            return new UserResponse(newUserOutput);
+
+        }
+        catch (Exception e)
+        {
+            return new UserResponse("An error ocurred while updating the user"+e.getMessage());
+        }
     }
 
     @Override

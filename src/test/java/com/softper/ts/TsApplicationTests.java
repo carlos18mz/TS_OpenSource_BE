@@ -1,9 +1,13 @@
 package com.softper.ts;
 
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.runner.RunWith;
 
-@SpringBootTest
+@RunWith(Cucumber.class)
+
+@CucumberOptions(strict=true, plugin = {"pretty"}, features = "src/test/java/featureFiles", glue = "stepDefinitions")
 class TsApplicationTests {
 
     @Test

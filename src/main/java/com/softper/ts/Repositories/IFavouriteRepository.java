@@ -12,4 +12,7 @@ public interface IFavouriteRepository extends JpaRepository<Favourite, Integer> 
 
     @Query("select f from Favourite f where f.user.id = (:uid)")
     List<Favourite> findFavouritesByUserId(@Param("uid") int userId);
+
+    @Query("select f from Favourite f where f.user.id = (:uid) and f.favourited.id = (:fid)")
+    Favourite findFavouriteByUserAndFavouriteId(@Param("uid")int userId, @Param("fid")int favouriteId);
 }

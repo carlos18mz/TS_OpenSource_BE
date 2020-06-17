@@ -34,6 +34,9 @@ public class Subscription implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishTime;
 
+    @Column(name = "subscription_state")
+    private String subscriptionState;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

@@ -59,8 +59,13 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Benefit> claimedBenefits = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "configuration_id")
     private Configuration configuration;
+
+    @OneToOne
+    @JoinColumn(name = "balance_id")
+    private Balance balance;
 
     @OneToOne
     @JoinColumn(name = "person_id")

@@ -16,4 +16,12 @@ public class VehicleInput {
     private double loadingCapacity;
     private String ownershipCard;
 
+    public VehicleInput(int driverId, String license, String brand, String model, double loadingCapacity, String ownershipCard) {
+        this.driverId = driverId;
+        this.license = license;
+        this.brand = brand;
+        this.model = model;
+        this.loadingCapacity = loadingCapacity;
+        this.ownershipCard = ownershipCard;
+    }
 }

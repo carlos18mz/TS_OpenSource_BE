@@ -20,17 +20,17 @@ public class Configuration implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "configuration", cascade = CascadeType.ALL)
     private User user;
 
-    @Enumerated(EnumType.STRING)
     @Column(name="language")
-    private Language language;
+    private String language;
 
-    @Enumerated(EnumType.STRING)
     @Column(name="payment_currency")
-    private PaymentCurrency paymentCurrency;
+    private String paymentCurrency;
+
+    @OneToOne(mappedBy = "configuration", cascade = CascadeType.ALL)
+    private PaymentMethod paymentMethod;
 
 
 }

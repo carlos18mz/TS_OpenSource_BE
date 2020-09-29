@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ICargoRepository extends JpaRepository<Cargo , Integer> {
-    //Cargo addCargoInCustomer(CargoResource cargoResource);
 
     @Query("select s from Cargo s where s.customer.id = (:uid)")
     List<Cargo> findCargoesByCustomerId(@Param("uid") Integer customerId);

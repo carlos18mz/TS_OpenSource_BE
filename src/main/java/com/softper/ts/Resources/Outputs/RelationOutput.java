@@ -8,4 +8,9 @@ import lombok.NoArgsConstructor;
 public class RelationOutput {
     private String userFrom;
     private String userTo;
+
+    public RelationOutput(String userFrom, String userTo) {
+        this.userFrom = userFrom;
+        this.userTo = userTo;
+    }
 }

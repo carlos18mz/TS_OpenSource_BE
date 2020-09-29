@@ -11,4 +11,12 @@ public class ReviewOutput {
     private String cargo;
     private String commentary;
     private double calification;
+
+    public ReviewOutput(String customer, String driver, String cargo, String commentary, double calification) {
+        Customer = customer;
+        Driver = driver;
+        this.cargo = cargo;
+        this.commentary = commentary;
+        this.calification = calification;
+    }
 }

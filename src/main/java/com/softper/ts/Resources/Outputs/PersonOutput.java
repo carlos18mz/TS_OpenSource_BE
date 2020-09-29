@@ -10,4 +10,11 @@ public class PersonOutput {
     private String lastName;
     private String email;
     private String userType;
+
+    public PersonOutput(String firstName, String lastName, String email, String userType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userType = userType;
+    }
 }

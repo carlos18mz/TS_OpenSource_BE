@@ -20,5 +20,8 @@ public interface IUserService extends ICrudService<User>{
     BlockedResponse findBlockedsByUserId(int userId);
     FavouriteResponse findAllFavourites();
     BlockedResponse findAllBlockeds();
+    FavouriteResponse findFavouriteByUserIdAndFavouriteId(int userId, int favouriteId);
+    BlockedResponse findBlockByUserIdAndBlockedId(int userId, int blockedId);
     UserResponse findByEmail(String email);
+    UserResponse findUserById(int userId);
 }

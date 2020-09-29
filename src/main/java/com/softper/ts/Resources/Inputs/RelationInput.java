@@ -6,7 +6,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class RelationInput {
-    public int userFrom;
+    private int userFrom;
+    private int userTo;
 
-    public int userTo;
+    public RelationInput(int userFrom, int userTo) {
+        this.userFrom = userFrom;
+        this.userTo = userTo;
+    }
 }

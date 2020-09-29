@@ -10,4 +10,10 @@ public class FavouriteOutput {
     private String user;
     private String favourited;
     private Date since;
+
+    public FavouriteOutput(String user, String favourited, Date since) {
+        this.user = user;
+        this.favourited = favourited;
+        this.since = since;
+    }
 }

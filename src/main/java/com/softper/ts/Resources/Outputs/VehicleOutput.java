@@ -10,4 +10,11 @@ public class VehicleOutput {
     private String model;
     private String brand;
     private double loadingCapacity;
+
+    public VehicleOutput(String driver, String model, String brand, double loadingCapacity) {
+        this.driver = driver;
+        this.model = model;
+        this.brand = brand;
+        this.loadingCapacity = loadingCapacity;
+    }
 }
